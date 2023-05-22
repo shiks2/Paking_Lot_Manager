@@ -83,6 +83,7 @@ class PL{
 class Car{
     String RegNo ;
     //String timeStamp;
+
     LocalDateTime timeStamp = LocalDateTime.now();
 
     // Format the timestamp as per your requirement
@@ -108,6 +109,34 @@ class Car{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return timeStamp.format(formatter);
     }
+
+    public LocalDateTime getTimestamp() {
+        return timeStamp;
+    }
+}
+class feeCalculation{
+    private static final double hourly_rate = 5;
+    //LocalDateTime entryTime = LocalDateTime.now();
+    //LocalDateTime exitTime = LocalDateTime.now();
+    LocalDateTime exitTime = LocalDateTime.now();
+    DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    String formattedexittime = exitTime.format(formatter1);
+    public LocalDateTime getExitTime(){return exitTime;}
+
+    public void setExitTime(LocalDateTime exitTime) {
+        this.exitTime = exitTime;
+    }
+
+    public static double calculate(Car car, LocalDateTime entryTime, LocalDateTime exitTime){
+        Duration duration = Duration.between(entryTime, exitTime);
+        long hours = duration.toHours();
+        long minutes = duration.toMinutesPart();
+        if(minutes > 0){
+            hours++;
+        }
+        double fee = hours * hourly_rate;
+        return fee ;
+    }
 }
 public class Main {
     public static void main(String[] args) {
@@ -118,6 +147,12 @@ public class Main {
         Car c2 = new Car("GJ01VI2343",LocalDateTime.now());
         v.parkcar(c2);
         //v.removeCar(c2);
+        feeCalculation f = new feeCalculation();
+        LocalDateTime exitTime = LocalDateTime.now();
         v.display();
+        double fee = feeCalculation.calculate(c1, c1.gettimeStamp(), exitTime);
+
+        System.out.println("Fee for car " + c1.getRegNo() + ": " + fee);
     }
-}
+
+    }
