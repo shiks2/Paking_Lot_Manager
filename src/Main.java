@@ -45,16 +45,21 @@ class PL{
         else
             return false;
     }
-    public boolean removeCar(Car car){
-        if(parkedCar.remove(car))
-        {
-            availableSpaces++;
-            occupiedSpaces--;
-            return true;
+    public boolean removeCar(Car car) {
+        Iterator<Car> iterator = parkedCar.iterator();
+        while (iterator.hasNext()) {
+            Car parkedCar = iterator.next();
+            if (parkedCar.getRegNo().equals(car.getRegNo())) {
+                iterator.remove();
+                availableSpaces++;
+                occupiedSpaces--;
+                return true;
+            }
         }
-        else
-            return false;
+        return false;
     }
+
+
     public List<Car> getParkedCar(){
         return parkedCar;
     }
